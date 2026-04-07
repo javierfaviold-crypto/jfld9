@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Los 18 de LU en Güerrin!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Montserrat:wght@400;600;800&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --guerrin-red: #D31027;
+            --guerrin-dark-red: #8B0000;
+            --cream: #FDFBF7;
+            --dark-text: #2C2C2C;
+            --gold: #FFD700;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #1a1a1a;
+            background-image: radial-gradient(circle at 50% 0%, #333 0%, #111 100%);
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark-text);
+            overflow-x: hidden;
+        }
+
+        /* --- PANTALLA DE ENTRADA REFORZADA --- */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.98);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .btn-open {
+            background: var(--guerrin-red);
+            color: white;
+            border: 2px solid var(--gold);
+            padding: 20px 40px;
+            font-size: 1.4rem;
+            font-family: 'Oswald', sans-serif;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 25px var(--guerrin-red);
+            margin-top: 25px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        /* --- TARJETA PRINCIPAL (El diseño con todo el relleno) --- */
+        .card {
+            background-color: var(--cream);
+            width: 100%;
+            max-width: 420px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5), 0 0 20px rgba(211, 16, 39, 0.2);
+            position: relative;
+            display: none; 
+        }
+
+        .awning {
+            height: 30px;
+            background: repeating-linear-gradient(135deg, var(--guerrin-red), var(--guerrin-red) 20px, #ffffff 20px, #ffffff 40px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
+        }
+
+        .lights {
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0;
+            background: #111;
+        }
+
+        .light-bulb {
+            width: 10px; height: 10px;
+            background-color: white;
+            border-radius: 50%;
+            box-shadow: 0 0 8px 2px #FFD700;
+            animation: blink 1.5s infinite alternate;
+        }
+
+        .light-bulb:nth-child(even) { animation-delay: 0.75s; }
+
+        @keyframes blink {
+            0% { opacity: 0.4; box-shadow: 0 0 2px 0px #FFD700; }
+            100% { opacity: 1; box-shadow: 0 0 10px 3px #FFD700; }
+        }
+
+        .header {
+            background-color: var(--guerrin-red);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 5px solid var(--guerrin-dark-red);
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -5px; left: 0; right: 0; height: 5px;
+            background: repeating-linear-gradient(90deg, var(--gold), var(--gold) 10px, transparent 10px, transparent 20px);
+        }
+
+        .pre-title { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; font-weight: 600; color: #FFD700; }
+        .title { font-family: 'Oswald', sans-serif; font-size: 2.8rem; line-height: 1.1; margin-bottom: 5px; text-transform: uppercase; }
+        .title span { font-size: 3.5rem; display: block; color: #ffffff; text-shadow: 0 0 10px rgba(255,255,255,0.5), 0 0 20px var(--gold); }
+        .subtitle { font-family: 'Lobster', cursive; font-size: 1.5rem; margin-top: 10px; color: white; }
+
+        .content {
+            padding: 30px 25px;
+            text-align: center;
+            background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="%23e0e0e0"/></svg>');
+        }
+
+        .intro-text { font-size: 1.05rem; line-height: 1.5; margin-bottom: 25px; color: #444; }
+        .pizzeria-name { font-family: 'Lobster', cursive; font-size: 1.6rem; color: var(--guerrin-red); display: inline-block; transform: rotate(-2deg); }
+
+        .details-box {
+            background-color: white;
+            border: 2px dashed var(--guerrin-red);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .detail-item { display: flex; align-items: flex-start; margin-bottom: 15px; }
+        .detail-icon { font-size: 1.3rem; margin-right: 12px; min-width: 25px; text-align: center; }
+        .detail-text strong { display: block; color: var(--guerrin-red); font-size: 1rem; margin-bottom: 2px; }
+
+        .footer {
+            background-color: var(--dark-text);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border-top: 4px solid var(--gold);
+        }
+
+        .pizza-emoji { display: inline-block; animation: bounce 2s infinite ease-in-out; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <h2 style="font-family: 'Lobster', cursive; font-size: 2.2rem; margin-bottom: 10px;">¡Se vienen los 18!</h2>
+        <p style="font-family: 'Montserrat', sans-serif;">Tocá el botón para activar la música porteña</p>
+        <button class="btn-open" id="playBtn">ABRIR INVITACIÓN 🍕</button>
+    </div>
+
+    <audio id="tangoAudio" loop preload="auto">
+        <source src="azucar.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card" id="mainCard">
+        <div class="awning"></div>
+        <div class="lights">
+            <div class="light-bulb"></div><div class="light-bulb"></div><div class="light-bulb"></div>
+            <div class="light-bulb"></div><div class="light-bulb"></div><div class="light-bulb"></div>
+            <div class="light-bulb"></div><div class="light-bulb"></div><div class="light-bulb"></div>
+            <div class="light-bulb"></div>
+        </div>
+
+        <div class="header">
+            <div class="pre-title">¡Festejamos los 18 de!</div>
+            <h1 class="title"><span>LU</span></h1>
+            <div class="subtitle">en un clásico porteño 🍕🎉</div>
+        </div>
+
+        <div class="content">
+            <p class="intro-text">
+                No hay mejor lugar para brindar por la mayoría de edad que entre muzzarella y fainá en la mítica <span class="pizzeria-name">Pizzería Güerrin</span>.
+            </p>
+
+            <div class="details-box">
+                <div class="detail-item">
+                    <div class="detail-icon">📅</div>
+                    <div class="detail-text"><strong>Cuándo</strong>Jueves 9 de Abril</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">⏰</div>
+                    <div class="detail-text"><strong>Hora</strong>20:30 horas</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">📍</div>
+                    <div class="detail-text"><strong>Lugar</strong>Pizzería Güerrin (Av. Corrientes 1368)</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-icon">✨</div>
+                    <div class="detail-text"><strong>Punto de encuentro</strong>Nos vemos directamente en la puerta.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            ¡No faltes, que la fugazzeta no se come sola! <span class="pizza-emoji">🍕</span>
+        </div>
+    </div>
+
+    <script>
+        const playBtn = document.getElementById('playBtn');
+        const audio = document.getElementById('tangoAudio');
+        const overlay = document.getElementById('overlay');
+        const mainCard = document.getElementById('mainCard');
+
+        playBtn.addEventListener('click', function() {
+            // Acción directa vinculada al click (indispensable para móviles)
+            audio.play().then(() => {
+                console.log("Reproduciendo...");
+            }).catch(e => {
+                console.log("Error de reproducción", e);
+            });
+
+            overlay.style.display = 'none';
+            mainCard.style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>
